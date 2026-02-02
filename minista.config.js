@@ -76,7 +76,10 @@ export default defineConfig({
       localsConvention: "camelCaseOnly",
     },
     preprocessorOptions: {
-      scss: {},
+      scss: {
+        additionalData: `@use '@/styles/helpers/index.scss' as *;`,
+        silenceDeprecations: ['legacy-js-api'] // Избавляемся от надоедлевых предупреждений в терминале.
+      },
       less: {},
       stylus: {},
     },

@@ -1,0 +1,81 @@
+	@use 'functions.scss' as *;
+
+	@mixin fluid-text($max: 48, $min: 16) {
+		font-size: fluid($max, $min);
+	}
+	// Миксины для визуального скрытия и отображения элемента с возможностью плавных анимаций и переходов.
+	@mixin hide {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	@mixin show {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	// Этот миксин с помощью flex свойств будет центировать содержимое элемента по обеим осям - горизонтали и вертикали.
+	@mixin flex-center($isInline: false) { // Миксин в параметрах будет ожидать опциональную булевую сущность.
+		@if ($isInline) {
+			display: inline-flex;
+		} @else {
+			display: flex;
+		}
+
+		justify-content: center;
+		align-items: center;
+	}
+
+	// Миксины для абсолютного позиционирования:
+	@mixin abs-cover { // Должен растягивать через абсолютное позиционирование элемент на всю ширину и высоту.
+		position: absolute;
+		inset: 0; // <-- Замяняет собой четыре свойства местоположения: top, right, bottom, left. Указав в значении одного число все параметры местоположения используют его же.
+	}
+
+	@mixin abs-center { // Должен центрировать элемент через абсолют по горизонтали и вертикали.
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		translate: -50% -50%;
+	}
+	@mixin abs-x { // Должен центрировать элемент через абсолют только по горизонтали.
+		position: absolute;
+		left: 50%; // Смещает левый край элемента на середину родителя. В этот момент элемент «перелетает» центр, так как его собственная ширина теперь находится правее центральной оси.
+		translate: -50%; // Сдвигает элемент назад влево на 50% от его собственной текущей ширины.
+	}
+
+	@mixin abs-y { // Должен центрировать элемент через абсолют только по вертикали.
+		position: absolute;
+		top: 50%;
+		translate: 0 -50%;
+	}
+
+	// Остальные:
+	@mixin square($size) { // Нужен для создания элемента с равными друг другу щириной и высотой.
+		width: $size;
+		height: $size;
+	}
+
+	@mixin visially-hidden { // Нужен для визуального скрытия элемента. Чтобы усилить специфичность свойств относительно других, добавим ключевое слово important, т.к.это утилитарный класс, он должен отрабатывать по-любому.
+		position: absolute !important;
+		width: 1px !important;
+		height: 1px !important;
+		margin: -1px !important;
+		border: 0 !important;
+		padding: 0 !important;
+		white-space: nowrap !important;
+		clip-path: inset(100%) !important;
+		clip: rect(0 0 0 0) !important;
+		overflow: hidden !important;
+	}
+
+	@mixin focus-visible { // Состояние focus-visible это тот же самый фокус, который возникает на элементах при их переборе через клавиши клавиатуры, но только умнее. При нажатии мышкой или пальцем на touch скринах на кликабельные элементы (кнопки, элементы summary) состояние focus-visible в отличие от состояния фокуса активироваться не будет.
+		outline: 2px dashed var(--color-white);
+		outline-offset: 4px; // <-- Этим свойством мы отодвинем от границы элемента обводку outline на 4px, т.е. во вне. 
+		transition-duration: 0s !important; // Это нужно для того, чтобы обводка outline появлялась мгновенно, а не с плавностью, которая будет на других элементах.
+	}
+
+	@mixin disabled { // Нужен для одноименного состояния disabled для кнопок, полей ввода и селекта.\
+		opacity: 0.5;
+		cursor: not-allowed; // Неактивное состояние элемента для пользователя будет максимально очевидным.
+	}
