@@ -1,6 +1,7 @@
 import './Header.scss'
 import Logo from '../../components/Logo'
 import classNames from 'classnames'
+import Button from '../../components/Button/Button'
 // Верхнеуровневый слой, который нужно будет использовать на каждой странице.
 const Header = (props) => { // Деструктурируем значение свойства url, переданного в объектом props
 	const {
@@ -49,6 +50,17 @@ const Header = (props) => { // Деструктурируем значение �
 						))}
 					</ul>
 				</nav>
+				<div className="header__actions">
+					<Button 
+						className="header__button" 
+						label="Search"
+					/>
+					<Button 
+						href='/' 
+						label="Notifications" 
+						isLabelHidden
+					/>
+				</div>
 			</div>
 		</header>
 	)
