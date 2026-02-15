@@ -1,7 +1,8 @@
 import './Header.scss'
 import Logo from '../../components/Logo'
 import classNames from 'classnames'
-import Button from '../../components/Button/Button'
+import Button from '../../components/Button'
+import BurgerButton from '../../components/BurgerButton'
 // Верхнеуровневый слой, который нужно будет использовать на каждой странице.
 const Header = (props) => { // Деструктурируем значение свойства url, переданного в объектом props
 	const {
@@ -66,6 +67,7 @@ const Header = (props) => { // Деструктурируем значение �
 						iconName="notification"
 					/>
 				</div>
+				<BurgerButton className="header__burger-button"/>
 			</div>
 		</header>
 	)
