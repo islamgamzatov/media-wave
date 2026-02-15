@@ -36,7 +36,7 @@ export default defineConfig({
       outDir: "assets/images",
       outName: "[dirname]",
       svgstoreOptions: {
-        cleanSymbols: ["fill", "stroke", "stroke-linejoin", "stroke-width"],
+        cleanSymbols: ["fill", "stroke"], // fill и stroke используются для стилизации векторной графики (SVG) и текста.
       },
     },
     fonts: {

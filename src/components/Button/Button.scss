@@ -1,6 +1,7 @@
 .button {
 	@include flex-center(true); // Так внутренне свойство display развернется со значением inline-flex.
 
+	column-gap: 4px;
 	padding: fluid-to-laptop(18, 14) fluid-to-laptop(24, 20);
 	font-weight: 600;
 	color: var(--color-white);
@@ -27,5 +28,21 @@
 		color: var(--color-gray-60);
 		background-color: var(--color-black-06);
 		pointer-events: none; 
+	}
+
+	&:has(.button__icon:only-child) {
+		padding: 0; // Когда внутри кнопки ТОЛЬКО иконка (без текста), отступы не нужны.
+	}
+
+	&--transparent {
+		background-color: transparent;
+
+		&:has(.button__icon:only-child) {
+			@include square(44px); // Задаем кнопке рекомендуемый минимальный размер кликабельных элементов.
+
+			.button__icon {
+				--iconSize: #{fluid-to-laptop(34, 24)}; // Меняем размеры иконок.
+			}
+		}
 	}
 }

@@ -52,13 +52,18 @@ const Header = (props) => { // Деструктурируем значение �
 				</nav>
 				<div className="header__actions">
 					<Button 
-						className="header__button" 
+						className="header__button"
 						label="Search"
+						isLabelHidden
+						mode="transparent"
+						iconName="search"
 					/>
 					<Button 
-						href='/' 
-						label="Notifications" 
+						className="header__button"
+						label="Notifications"
 						isLabelHidden
+						mode="transparent"
+						iconName="notification"
 					/>
 				</div>
 			</div>
