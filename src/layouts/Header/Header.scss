@@ -25,20 +25,59 @@
 		column-gap: 16px;
 	}
 
-	&__menu {
-		padding: fluid-to-laptop(10, 8);
-		background-color: var(--color-black-06);
-		outline: var(--border-width-l) solid var(--color-black-12);
-		border-radius: var(--border-radius-l);
+	&__overlay-menu-dialog {
+		position: fixed;
+		inset: 0;
+		flex-direction: column-reverse;
+		row-gap: 16px;
+		justify-content: start;
+		width: 100%;
+		height: 100%;
+		padding: var(--container-padding-x); // У элемента dialog есть отступы по умолчанию, который также нужно сбросить.
+		background-color: var(--color-black-20);
+		border: none; // У элемента dialog есть border по умолчанию, который нужно скрыть.
 
+		@include tablet-above {
+			display: contents; // Значение contents у свойства display буквально говорит браузеру: «Представь, что у разметки на ширине экрана 1023px и выше не существует этой обертки»
+		}
+
+		&[open] { // селектор по атритубуту open.
+			display: flex; // по умолчанию браузер скрывает <dialog>, используя свойство display: none. Когда диалог открыт, браузер меняет его на display: block. Когда вы вручную пишете в CSS .my-dialog { display: flex; }, вы перебиваете внутреннюю логику браузера. Чтобы сохранить flex и при этом позволить диалогу закрываться, нужно привязать display к состоянию диалога (наличию атрибута [open]).
+		}
+	}
+
+	&__menu {
+		border-radius: var(--border-radius-l);
+		
 		@include laptop {
 			border-radius: var(--border-radius-m);
+		}
+
+		@include tablet-above {
+			padding: fluid-to-laptop(10, 8);
+			background-color: var(--color-black-06);
+			outline: var(--border-width-l) solid var(--color-black-12);
+		}
+
+		@include tablet {
+			display: flex;
+			// flex-direction: column; // &__menu даже с overflow-y cо значением auto не будет давать возможность полноценно скроллить страницу при открытии модального окна. Чтобы это исправить, в &-list дабавляем margin-block со значением auto.
+			justify-content: center; // Если центрировать через justify-content: center, то при переполнении (когда меню длиннее экрана) верхушка списка просто улетит за верхнюю границу и её невозможно будет увидеть. Браузер считает, что центр — это святое, и «обрезает» верх и низ.
+			height: 100%;
+			border-radius: 0;
+			overflow-y: auto; // Делаем возможной прокрутку по вертикальной оси в рамках элемента header__menu.
 		}
 
 		&-list {
 			display: flex;
 			align-items: center;
 			column-gap: 6px; // Рассчитал как 30 - 24, т.е. от элемента n до границы n-1 минус от текстового содержимое элемента n-1 до его правой границы.
+
+			@include tablet {
+				flex-direction: column;
+				row-gap: 16px;
+				margin-block: auto; // Вертикальное центирование элементов благодаря внешним отступам margin.
+			}
 		}
 
 		&-link {
@@ -57,6 +96,10 @@
 				background-color: var(--color-black-10);
 				pointer-events: none; // Отключим взаимодействие с актвной ссылкой.
 			}
+
+			@include tablet {
+				font-size: 20px;
+			}
 		}
 	}
 
@@ -64,6 +107,10 @@
 		display: flex;
 		align-items: center;
 		column-gap: 10px; /* Такие кликабельные элементы, как кнопки, должны иметь область нажатия не менее 44px. Поэтому из column-gap макету в 30px мы вычтем 10px по два раза. */
+	}
+
+	&__burger-button { // &__burger-button расположен внутри элемента с классом container. На container действует padding-inline со значением padding-x
+		position: relative; // Даже без явного z-index, position: relative выводит элемент на новый "слой" над обычным потоком документа.
 	}
 }
 
