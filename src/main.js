@@ -1,1 +1,3 @@
-console.log('Проверка, подключен ли файл скриптов')
+import OverlayMenu from "./modules/OverlayMenu";
+
+new OverlayMenu()

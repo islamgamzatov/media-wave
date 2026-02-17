@@ -36,13 +36,32 @@
 		padding: var(--container-padding-x); // У элемента dialog есть отступы по умолчанию, который также нужно сбросить.
 		background-color: var(--color-black-20);
 		border: none; // У элемента dialog есть border по умолчанию, который нужно скрыть.
+		transition-duration: var(--transition-duration); // Просто так это работать не будет, потому что свойство display по умолчанию анимировать не получится, но мы можем включать анимацию дискретных свойств, таких как display.
+		transition-behavior: allow-discrete; // transition-behavior: allow-discrete — разрешает анимировать display
+		opacity: 1; // 
+		translate: 0;
 
 		@include tablet-above {
 			display: contents; // Значение contents у свойства display буквально говорит браузеру: «Представь, что у разметки на ширине экрана 1023px и выше не существует этой обертки»
 		}
 
+		/*
+			При открытии: анимация идет от @starting-style → обычным стилям
+			При закрытии: анимация идет от обычных стилей → &:not([open]), затем display:none
+		*/ 
+
 		&[open] { // селектор по атритубуту open.
 			display: flex; // по умолчанию браузер скрывает <dialog>, используя свойство display: none. Когда диалог открыт, браузер меняет его на display: block. Когда вы вручную пишете в CSS .my-dialog { display: flex; }, вы перебиваете внутреннюю логику браузера. Чтобы сохранить flex и при этом позволить диалогу закрываться, нужно привязать display к состоянию диалога (наличию атрибута [open]).
+			
+			@starting-style { // Директива starting-style отвечает за начальное состояние	 ДО открытия.
+				opacity: 0;
+				translate: 50%; // Для сдвига элемента dialog на 50% вправо от его ширины.
+			}
+		}
+
+		&:not([open]) {
+			opacity: 0; // ← конечное состояние после закрытия
+			translate: 50%; // ← конечное состояние после закрытия
 		}
 	}
 
