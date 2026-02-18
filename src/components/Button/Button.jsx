@@ -8,11 +8,12 @@ const Button = (props) => {
 		type = 'button', // Деструктурируем значение свойства button, чтобы нам не приходилось вручную прописывать type="button" каждый раз, если бы не использовали шаблонизатор разметки.
 		href, // Компонент Button под капотом может быть или HTML элементом button, или ссылкой.
 		target, // если target нет → по умолчанию _self.  {/* По умолчанию target="_self" Открывает ссылку в новой вкладке/окне, чтобы пользователь не ушёл с вашего сайта */}
-		mode = '', // '' (default) | 'transparent'
+		mode = '', // '' (default) | 'transparent' | 'black-10'
 		label, // Параметр будет отвечать за текстовое содержимое кнопки // Если isLabelHidden=true, также используется как значение для атрибутов title и aria-label.
 		isLabelHidden = false, // Данный булевый параметр нужен на случай, если текстовое содержимое кнопки отображаться не будет. isLabelHidden — скрыть текст, но оставить для скринридеров. А для кнопки с текстом это не нужно.
 		iconName,
 		iconPosition = 'before', // 'before' | 'after'
+		hasFillIcon,
 
 	} = props
 	
@@ -22,7 +23,12 @@ const Button = (props) => {
 	const buttonProps = { type }
 	const specificProps = isLink ? linksProps : buttonProps // Так мы, в зависимости от переданного в параметры href значения, сделаем наш компонент Button либо ссылкой, либо кнопкой в финальном HTML коде.
 	const title = isLabelHidden ? label : undefined
-	const iconComponent = iconName && <Icon className="button__icon" name={iconName}/>
+	const iconComponent = iconName && 
+		<Icon 
+			className="button__icon" 
+			name={iconName}
+			hasFill={hasFillIcon}
+		/>
 
 
 	return (

@@ -31,6 +31,8 @@
 	}
 
 	&:has(.button__icon:only-child) {
+		@include square(fluid-to-laptop(56, 44));
+		
 		padding: 0; // Когда внутри кнопки ТОЛЬКО иконка (без текста), отступы не нужны.
 	}
 
@@ -44,5 +46,10 @@
 				--iconSize: #{fluid-to-laptop(34, 24)}; // Меняем размеры иконок.
 			}
 		}
+	}
+
+	&--black-10 {
+		background-color: var(--color-black-10);
+		border: var(--border);
 	}
 }

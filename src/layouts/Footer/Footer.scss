@@ -1,0 +1,63 @@
+.footer {
+	background-color: var(--color-black-06);
+
+	&__menu {
+		--footerMenuColumns: 6;
+
+		display: grid;
+		grid-template-columns: repeat(var(--footerMenuColumns), 1fr);
+		gap: fluid(30, 10);
+		padding-block: fluid(100, 50);
+		border-bottom: var(--border);
+
+		@include tablet {
+			--footerMenuColumns: 3;
+		}
+
+		@include mobile {
+			--footerMenuColumns: 2;
+		}
+
+		&-column {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			row-gap: fluid(24, 16);
+		}
+
+		&__list {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			row-gap: fluid(14, 8);
+		}
+	}
+
+	&__extra {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: fluid-to-laptop(24, 20);
+		padding-bottom: fluid(50, 20);
+		column-gap: 16px;
+
+		@include mobile {
+			flex-direction: column;
+			row-gap: 20px;
+		}
+
+		&-link {
+			&:not(:last-child) {
+				align-items: center;
+
+				&::after {
+					content: '';
+					height: 1em; // относительная единица измерения в CSS, равная текущему размеру шрифта (font-size) родительского элемента
+					margin-inline: fluid-to-laptop(20, 16);
+					border-right: var(--border);
+				}
+			}
+		}
+	}
+}
+
