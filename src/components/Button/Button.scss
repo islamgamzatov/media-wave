@@ -31,7 +31,7 @@
 	}
 
 	&:has(.button__icon:only-child) {
-		@include square(fluid-to-laptop(56, 44));
+		@include square(fluid-to-laptop(56, 44)); // У кнопки с непрозрачным фоном, но содержащим только одну иконку, нужен иной размер.
 		
 		padding: 0; // Когда внутри кнопки ТОЛЬКО иконка (без текста), отступы не нужны.
 	}
@@ -40,7 +40,7 @@
 		background-color: transparent;
 
 		&:has(.button__icon:only-child) {
-			@include square(44px); // Задаем кнопке рекомендуемый минимальный размер кликабельных элементов.
+			@include square(44px); // Задаем кнопке рекомендуемый минимальный фиксированный размер кликабельных элементов.
 
 			.button__icon {
 				--iconSize: #{fluid-to-laptop(34, 24)}; // Меняем размеры иконок.

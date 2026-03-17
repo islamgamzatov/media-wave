@@ -1,4 +1,4 @@
-// Это корневой файл, который оборачивает ВСЕ страницы, чтобы не пришлось на каждой странице (в файлах index.jsx, )
+// Во фреймворке Minista есть специальный компонент обертка над всеми страницами. Это корневой файл, который оборачивает ВСЕ страницы, чтобы не пришлось на каждой странице (в файлах index.jsx, и т.д.) прописывать одно и то же.
 import '@/styles'
 import { Head } from "minista" // Встроенный в фреймворк minista JSX компонент Head, который в качестве children, принимет любые элементы, которые в итоге попадут внутрь HTML элемента head.
 import Header from "@/layouts/Header" // Обращение к одноименному Header выглядит непрофессионально. В папке каждого компонента будет собственный файл с названием index.js
@@ -11,6 +11,7 @@ export default function (props) { // Компонент в параметрах 
 		children,
 		title,
     url, // адрес текущей страницы
+    isHeaderFixed,
 	 } = props
   return (
     <>
@@ -22,7 +23,7 @@ export default function (props) { // Компонент в параметрах 
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
      </Head>
-      <Header url={url}/>
+      <Header url={url} isFixed={isHeaderFixed}/>
       <Content>
         {children}
       </Content>

@@ -1,0 +1,62 @@
+.hero {
+	display: flex;
+	flex-direction: column; // Нам это понадобиться позже, чтобы верхнюю часть секции растянуть на все доступное ей пространство, а нижнюю прижать к низу.
+	text-align: center;
+	padding-bottom: var(--section-padding-y );
+	min-height: 100vh; // Теперь секция по высоте будет такой же, как (viewport) видимая область веб-страницы на экране устройства, на котором открыли наш сайт. По макету фактически занимет 1092px по высоте, что похоже на классическую высоту viewport на экранах с разрешением 1920 на 1080 px.
+
+	@include mobile {
+		min-height: 639px; // На разрешении для мобильных устройств наше свойство может отработать не так, как нам хотелось бы. Поэтому минимальную высоту секции мы укажем как в мобильной версии макета.
+	}
+
+ &__pano {
+   --heroGradientColorStart: var(--color-black-08);
+   --heroGradientColorEnd: rgb(20 20 20 / 0);
+
+   --heroGradientHeight: 67.5%;
+
+   --heroGraidentTop: linear-gradient(
+     to bottom,
+     var(--heroGradientColorStart) 0%,
+     var(--heroGradientColorEnd) 100%
+   ) 50% 0/100% var(--heroGradientHeight);
+
+   --heroGraidentBottom: linear-gradient(
+     to top,
+     var(--heroGradientColorStart) 0%,
+     var(--heroGradientColorEnd) 100%
+   ) 50% 101%/100% var(--heroGradientHeight);
+
+   @include flex-center;
+
+   flex-grow: 1;
+   padding-top: fluid(195, 150);
+   padding-bottom: fluid(131, 50);
+   background:
+     var(--heroGraidentTop),
+     var(--heroGraidentBottom),
+     url('../../assets/images/hero/bg.png') 50%/cover;
+   background-repeat: no-repeat;
+ }
+
+	&__play-button {
+		@include square(fluid(470, 200));
+
+		padding: 0;
+		background-color: transparent;
+		border: none;
+	}
+
+	&__title {
+		margin-top: -0.5em; // Вытянем заголовок на половину размера его font-size.
+		margin-bottom: fluid-to-laptop(14, 10);
+	}
+
+	&__description {
+		margin-bottom: fluid(50, 30);
+	}
+
+	&__body {
+		padding-bottom: fluid(50, 20);
+	}
+}
