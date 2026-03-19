@@ -40,7 +40,7 @@
 		background-color: transparent;
 
 		&:has(.button__icon:only-child) {
-			@include square(44px); // Задаем кнопке рекомендуемый минимальный фиксированный размер кликабельных элементов.
+			@include square(44px); // Задаем кнопке рекомендуемый минимальный фиксированный	 размер кликабельных элементов.
 
 			.button__icon {
 				--iconSize: #{fluid-to-laptop(34, 24)}; // Меняем размеры иконок.

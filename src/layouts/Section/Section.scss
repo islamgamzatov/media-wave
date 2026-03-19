@@ -18,6 +18,10 @@
 
 	&:has(.section__description) {
 		align-items: end;
+
+		@include mobile {
+			align-items: start;
+		}
 	}
 
 	&__info {
