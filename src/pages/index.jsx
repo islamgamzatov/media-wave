@@ -1,4 +1,5 @@
 // Данный файл отвечает за компонент главной страницы.
+import Categories from "../sections/Categories"
 import Hero from "../sections/Hero"
 
 export const metadata = {
@@ -10,6 +11,7 @@ export default function () {
   return (
     <>
       <Hero />
+      <Categories />
     </>
   )
 }

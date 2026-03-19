@@ -16,7 +16,7 @@ export default function (props) { // Компонент в параметрах 
   return (
     <>
       <Head htmlAttributes={{ lang: 'en' }}> {/* Сюда в формате объекта в качестве значения мы можем передать атрибут элемента HTML, который попадет в итогую разметку */}
-        <title>Media Wave | {title}</title>
+        <title>Stream Vibe | {title}</title>
 				<script src="/src/main.js" type="module"/> {/* type="module" нужен, чтобы скрипт загружался после того, как обработается весь HTML код в body*/}
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /> {/* Теперь в терминале IDE мы не увидим предупреждения, что сборщик проектов не может найти подключенную favicon. Для этого мы воспользовались сервсисом favicon.io*/}
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
