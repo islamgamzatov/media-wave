@@ -14,7 +14,7 @@ const Button = (props) => {
 		iconName,
 		iconPosition = 'before', // 'before' | 'after'
 		hasFillIcon,
-
+		extraAttrs,
 	} = props
 	
 	const isLink = href !== undefined
@@ -39,6 +39,7 @@ const Button = (props) => {
 			title={title} // Так, если title = undefined, ничего не произойдет. А при строке в значении будет добавлен атрибут с соотвествующим текстом.
 			aria-label={title} // Аналогично описанному выше.
 			{ ...specificProps } // Так мы развернем только нужные атрибуты, соотвествующие конкретной вариации компонента кнопки.
+			{ ...extraAttrs }
 		>
 			{iconPosition === 'before' && iconComponent}
 			{!isLabelHidden && (
