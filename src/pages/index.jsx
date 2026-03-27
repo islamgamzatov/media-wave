@@ -3,6 +3,7 @@ import Categories from "../sections/Categories"
 import Hero from "../sections/Hero"
 import Devices from "../sections/Devices"
 import Questions from "../sections/Qusetions"
+import Plans from "../sections/Plans"
 
 export const metadata = {
 	title: 'Home',
@@ -16,6 +17,7 @@ export default function () {
       <Categories />
       <Devices />
       <Questions />
+      <Plans />
     </>
   )
 }

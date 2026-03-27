@@ -4,6 +4,7 @@
 	column-gap: 4px;
 	padding: fluid-to-laptop(18, 14) fluid-to-laptop(24, 20);
 	font-weight: 600;
+	text-align: center;
 	color: var(--color-white);
 	background-color: var(--color-red-45);
 	border: none; // Всем кнопкам важно убрать стандартный border.
@@ -48,8 +49,16 @@
 		}
 	}
 
+	&--black-08, 
+	&--black-10 {
+		border: var(--border);
+	}
+	
+	&--black-08 {
+		background-color: var(--color-black-08);
+	}
+
 	&--black-10 {
 		background-color: var(--color-black-10);
-		border: var(--border);
 	}
 }
