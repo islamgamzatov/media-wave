@@ -1,0 +1,39 @@
+.tabs-navigation {
+	display: flex;
+	padding: fluid-to-laptop(10, 8);
+	border: var(--border);
+	border-radius: var(--border-radius-m);
+
+	@include laptop {
+		border-radius: var(--border-radius-s);
+	}
+
+	&__button {
+		padding: fluid-to-laptop(14, 12) fluid-to-laptop(24, 20);
+		border-radius: var(--border-radius-m);
+		transition-duration: var(--transition-duration);
+		cursor: pointer;
+		user-select: none;
+
+		@include laptop {
+			border-radius: var(--border-radius-xs);
+		}
+
+		@include hover {
+			color: var(--color-white);
+		}
+
+		&.is-active {
+			color: var(--color-white);
+			pointer-events: none;
+		}
+
+		/*
+			Про серый фон на активной кнопке.
+			Для всего элемента tabs-navigation добавим псевдоэлемент before с серым фоном,
+			который разместим абсолютом и будем при переключении табов через задавать ему ширину как у активной кнопки.
+			Еще этот элемент будет смещен по оси X относительно всего контейнера на такое же расстояние, на которое смещена активная кнопка.
+			Таким образом, у нас получится необычный эффект плавающего фона.
+		*/
+	}
+}

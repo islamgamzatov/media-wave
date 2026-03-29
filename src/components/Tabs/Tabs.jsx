@@ -1,6 +1,7 @@
 import './Tabs.scss'
 import classNames from 'classnames'
-import getIdGromTitle from '../../utils/getIdFromTitle'
+import getTabsElementsIdsFromTitle from './utils/getTabsElementsIdsFromTitle'
+import TabsNavigation from './components/TabsNavigation'
 
 const Tabs = (props) => {
 	const {
@@ -17,8 +18,8 @@ const Tabs = (props) => {
 				navigationTargetElementId,
 			})}
 		>
-			{!navigationTargetElementId && (
-				<div>Навигация табов</div>
+			{!navigationTargetElementId && ( // Если параметр navigationTargetElementId не передали, то будет считать, что разметка навигации табов должна находиться внутри элемента с классом tabs.
+				<TabsNavigation title={title} items={items} />
 			)}
 			<div className="tabs__body">
 				{items.map((item, index) => {
@@ -28,9 +29,7 @@ const Tabs = (props) => {
 						isActive,
 					} = item
 
-					const titleFormatted = getIdGromTitle(title)
-					const buttonId = `${titleFormatted}-tab`
-					const contentId = `${titleFormatted}-tabpanel`
+					const { buttonId, contentId } = getTabsElementsIdsFromTitle(title)
 					
 					return (
 						<div className={classNames('tabs__content', {
