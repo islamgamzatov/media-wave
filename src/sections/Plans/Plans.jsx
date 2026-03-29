@@ -6,13 +6,13 @@ import TabsNavigation from "../../components/Tabs/components/TabsNavigation"
 import Tabs from "../../components/Tabs/Tabs"
 
 const Plans = () => {
-	const tabsTitle = 'plans-tabs'
+	const tabsTitle = 'Plans tabs'
 	const tabsNavigationId = "plans-tabs-navigation"
 
 	return (
 		<Section
 			title="Choose the plan that's right for you"
-			id="plan-title"
+			titleId = 'plans-id'
 			description="Join StreamVibe and select from our flexible subscription options tailored to suit your viewing preferences. Get ready for non-stop entertainment!"
 			actions = {(
 				<TabsNavigation 

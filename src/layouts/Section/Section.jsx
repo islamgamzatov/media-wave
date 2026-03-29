@@ -15,7 +15,7 @@ const Section = (props) => {
 	return (
 		<section
 			className={classNames(className, 'section container')}
-			aria-label={titleId}
+			aria-labelledby={titleId}
 		>
 			<header className="section__header">
 				<div className="section__info">
