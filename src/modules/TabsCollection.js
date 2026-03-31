@@ -1,8 +1,9 @@
 import getParams from "../utils/getParams"
+import BaseComponent from "./generic/BaseComponent"
 
 const rootSelector = '[data-js-tabs]'
 
-class Tabs {
+class Tabs extends BaseComponent {
 	selectors = {
 		root: rootSelector,
 		navigation: '[data-js-tabs-navigation]',
@@ -20,6 +21,7 @@ class Tabs {
 	}
 
 	constructor(rootElement) {
+		super() // Вызываем конструктор класса, от которого мы наследовались. Иначе мы получим ошибку.
 		this.rootElement = rootElement
 		this.params = getParams(this.rootElement, this.selectors.root)
 		this.navigationElement = this.params.navigationTargetElementId
@@ -27,9 +29,10 @@ class Tabs {
 			: this.rootElement.querySelector(this.selectors.navigation)
 		this.buttonElements = [...this.navigationElement.querySelectorAll(this.selectors.button)] // Обернем результат выражения в квадратные скобки, укажем в начале spread operator (...). Это нужно, чтобы в дальнйшем коде без проблем применять к this.buttonElements любые методы массивов (в частности, findIindex)
 		this.contentElements = [...this.rootElement.querySelectorAll(this.selectors.content)]
-		this.state = { // Объект состояния компонента
+		this.state = this.getProxyState({ // Объект состояния компонента. Т.к. state объект теперь проксируемый, то из-за подкаптоной механики, которую мы описали в абстрактном классе (из-за сравнения old и new value метод updateUI будет вызываться автоматически без нашего вмешательства)
 			activeTabIndex: this.buttonElements.findIndex(({ ariaSelected }) => ariaSelected) // Функция внутри findIndex возвращает true или false в зависимости от значения ariaSelected. Сам findIndex возвращает число, индекс элемента, в значении ariaSelected которого true. Таким образом, мы определяем индекс активного таба
-		}
+		})
+		
 		this.limitTabsIndex = this.buttonElements.length - 1 // Так мы получим индекс последенего элемента табов или, другими словами, лимит индекса табов. Это нужно, чтобы корректно зациклить переключение табов через клавиши клавиатуры
 		this.bindEvents()
 	}
@@ -54,7 +57,6 @@ class Tabs {
 
 	activateTab(newTabIndex) {
 		this.state.activeTabIndex = newTabIndex
-		this.updateUI()
 		this.buttonElements[newTabIndex].focus() // Получаем DOM-элемент конкретной кнопки и вызывает у этого элемента метод focus. Нам нужно дополнительно программно взять в фокус соотвествующую индексу кнопку навигации таба.
 	}
 
@@ -84,7 +86,6 @@ class Tabs {
 
 	onButtonClick(buttonIndex) {
 		this.state.activeTabIndex = buttonIndex
-		this.updateUI()
 	}
 
 	/*
