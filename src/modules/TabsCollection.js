@@ -1,4 +1,5 @@
 import getParams from "../utils/getParams"
+import pxToRem from "../utils/pxToRem"
 import BaseComponent from "./generic/BaseComponent"
 
 const rootSelector = '[data-js-tabs]'
@@ -35,6 +36,7 @@ class Tabs extends BaseComponent {
 		
 		this.limitTabsIndex = this.buttonElements.length - 1 // Так мы получим индекс последенего элемента табов или, другими словами, лимит индекса табов. Это нужно, чтобы корректно зациклить переключение табов через клавиши клавиатуры
 		this.bindEvents()
+		setTimeout(this.bindObservers, 500) // В первые доли прогрузки страницы подлжока растягивается на неадекватную ширину. Это все из-за рано отрабатывающего resizeObserver
 	}
 
 	updateUI() { // Цель этого метода - обновить DOM-дерево, раскидать значения атрибутов элементам текущего компонента табов
@@ -46,6 +48,10 @@ class Tabs extends BaseComponent {
 			buttonElement.classList.toggle(this.stateClasses.isActive, isActive)
 			buttonElement.ariaSelected = isActive
 			buttonElement.tabIndex = isActive ? 0 : -1
+
+			if (isActive) {
+				this.updateNavigationCssVars(buttonElement) // В аргументы методу передаем DOM-элемент новой активной кнопки
+			}
 		})
 
 		this.contentElements.forEach((contentElement, index) => {
@@ -53,6 +59,28 @@ class Tabs extends BaseComponent {
 			
 			contentElement.classList.toggle(this.stateClasses.isActive, isActive)
 		})
+	}
+	/*
+		// Данный метод будет отвечать за обновление значений нескольких CSS переменных на элементе tabs__navigation. Для dom-элемента activeButtonElement нам нужно получить его ширину и смещение относительно левого края страницы.
+	*/
+	updateNavigationCssVars(activeButtonElement = this.buttonElements[this.state.activeTabIndex]) { // Так в activeButtonElement мы гарантировано получим DOM-элемент активной в данный момент кнопки навигации, даже если при вызове метода updateNavigationCssVars мы ничего аргументом не передаем.
+		/*
+			left — расстояние от левого края окна до левого края активной кнопки
+			this.navigationElement.getBoundingClientRect().left — расстояние от левого края окна до левого края родителя
+			Разница между ними — это расстояние от левого края родителя до левого края активной кнопки.
+		*/
+		const { width, left } = activeButtonElement.getBoundingClientRect() // The Element.getBoundingClientRect() method in JavaScript returns the size of an element and its position relative to the viewport (the visible part of the web page in the browser window).
+		const offsetLeft = left - this.navigationElement.getBoundingClientRect().left // Нужно определить, на какое расстояние нам нужно сдвинуть подложку относительно левого края родительского элемента. Так мы получим смещение родительского элемента относительно левого края страницы: this.navigationElement.getBoundingClientRect().left. Здесь в формате числа мы получим кол-во писелей, на которое нужно сместить подложку, чтобы она передвинулась в нужное место. Зачем: индикатор находится внутри родителя. Чтобы он оказался под кнопкой, нужно знать его позицию внутри родителя, а не относительно окна.
+
+		this.navigationElement.style.setProperty(
+			this.stateCSSVariables.activeButtonWidth,
+			`${pxToRem(width)}rem`
+		)
+
+		this.navigationElement.style.setProperty(
+			this.stateCSSVariables.activeButtonOffsetLeft,
+			`${pxToRem(offsetLeft)}rem`
+		)
 	}
 
 	activateTab(newTabIndex) {
@@ -149,6 +177,23 @@ class Tabs extends BaseComponent {
 			buttonElement.addEventListener('click', () => this.onButtonClick(index)) // В рамках каждой итеррации на ButtonElement через метод addEventListener вешаем слушатель события клика, в качестве втрого аргумента передаем стрелочную функцию, которая будет вызывать через this метод onButtonClick и передавать ему в аргументы сущность index
 		})
 		document.addEventListener('keydown', this.onKeyDown) // Добавляем к document слушатель события keydown
+	}
+	
+	/*
+	Когда параметр экрана (ширина viewport) изменяется,
+	будет изменяться смещение нашего NavigationElement относительно левого края экрана 
+	и в таком случае метод нужно перевызывать повторно.
+	Для этого мы воспользуемся resizeObserver API.
+	*/
+	
+	onResize = () => {
+		this.updateNavigationCssVars()
+	}
+
+	bindObservers = () => {
+		const resizeObserver = new ResizeObserver(this.onResize)
+
+		resizeObserver.observe(this.navigationElement) // В аргументы методу передаем DOM-element, за изменением размеров которого мы собираемся следить.
 	}
 }
 

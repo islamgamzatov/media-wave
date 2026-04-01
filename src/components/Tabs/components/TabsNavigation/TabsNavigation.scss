@@ -1,4 +1,9 @@
 .tabs-navigation {
+	--tabsActiveButtonWidth: 0;
+	--activeButtonOffsetLeft: 0;
+	--tabsNavigationPadding: #{fluid-to-laptop(10, 8)};
+
+	position: relative;
 	display: flex;
 	padding: fluid-to-laptop(10, 8);
 	border: var(--border);
@@ -8,7 +13,25 @@
 		border-radius: var(--border-radius-s);
 	}
 
+	&::before {
+		content: '';
+		position: absolute;
+		top: var(--tabsNavigationPadding);
+		left: 0;
+		width: var(--tabsActiveButtonWidth);
+		height: calc(100% - var(--tabsNavigationPadding) * 2); // Высота родительского блока - вертикальные внутренние отступы
+		background-color: var(--color-black-12);
+		border-radius: var(--border-radius-m);
+		transition-duration: var(--transition-duration);
+		translate: var(--activeButtonOffsetLeft);
+
+		@include laptop {
+			border-radius: var(--border-radius-xs);
+		}
+	}
+
 	&__button {
+		position: relative; // Чтобы псевдоэлемент (подлжожка с серым фоном) не перекрывал содержимое текстовое у кнопок.
 		padding: fluid-to-laptop(14, 12) fluid-to-laptop(24, 20);
 		border-radius: var(--border-radius-m);
 		transition-duration: var(--transition-duration);
